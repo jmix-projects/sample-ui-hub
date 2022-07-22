@@ -1,0 +1,8 @@
+rootProject.name = 'integration-addon'
+
+include 'integration'
+include 'integration-starter'
+
+rootProject.children.each { p1 ->
+    p1.buildFileName = "${p1.name}.gradle"
+}
