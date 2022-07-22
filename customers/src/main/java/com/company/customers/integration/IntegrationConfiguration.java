@@ -16,14 +16,12 @@ public class IntegrationConfiguration {
         return new AuthorizedUrlsProvider() {
             @Override
             public Collection<String> getAuthenticatedUrlPatterns() {
-                return Collections.emptyList();
-//                return Arrays.asList("/integration/**");
+                return Arrays.asList("/integration/**");
             }
 
             @Override
             public Collection<String> getAnonymousUrlPatterns() {
-//                return Collections.emptyList();
-                return Arrays.asList("/integration/**");
+                return Collections.emptyList();
             }
         };
     }

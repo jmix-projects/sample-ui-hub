@@ -4,6 +4,7 @@ import io.jmix.core.AccessManager;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.ui.WindowConfig;
 import io.jmix.ui.WindowInfo;
+import io.jmix.ui.accesscontext.UiMenuContext;
 import io.jmix.ui.menu.MenuConfig;
 import io.jmix.ui.menu.MenuItem;
 import io.jmix.ui.navigation.RouteDefinition;
@@ -57,10 +58,9 @@ public class MenuController {
     }
 
     private boolean isPermitted(MenuItem menuItem) {
-        return true;
-//        UiMenuContext menuItemContext = new UiMenuContext(menuItem);
-//        accessManager.applyRegisteredConstraints(menuItemContext);
-//        return (menuItemContext.isPermitted() && !menuItem.isSeparator());
+        UiMenuContext menuItemContext = new UiMenuContext(menuItem);
+        accessManager.applyRegisteredConstraints(menuItemContext);
+        return (menuItemContext.isPermitted() && !menuItem.isSeparator());
     }
 
     private String getPath(String screenId) {
