@@ -19,5 +19,5 @@
             <column name="DATE_" type="DATE"/>
             <column name="AMOUNT" type="DECIMAL(19, 2)"/>
         </createTable>
-</changeSet>
+    </changeSet>
 </databaseChangeLog>

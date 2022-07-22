@@ -1,4 +1,4 @@
-package com.company.customers.integration;
+package com.company.integration.menu;
 
 import io.jmix.core.AccessManager;
 import io.jmix.core.security.CurrentAuthentication;

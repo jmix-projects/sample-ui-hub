@@ -1,4 +1,4 @@
-package com.company.customers.integration;
+package com.company.integration.menu;
 
 import java.util.List;
 
