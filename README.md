@@ -2,13 +2,17 @@
 
 ## Overview
 
+This is an example of integrating multiple Jmix applications (services) into a single starter UI (Hub). 
+
+The Hub main menu is composed from menus of the service applications, taking into account permissions of the logged in user. When the user clicks on a menu item in Hub, it redirects to the corresponding screen in the service application.
+
 The repository contains the following projects:
 
 - `hub` is a central application which provides common menu collected from service applications
 - `customers` and `orders` are service applications connected to the Hub
 - `integration` is an add-on providing common functionality for service applications available through the Hub
 
-## Running Locally
+## Running locally
 
 1. Create different host names for the appplications running on localhost. Add the following lines to your `hosts` file:
     ```
@@ -59,3 +63,17 @@ Log in as `alice`. You will land in the Hub application, which will show menus o
 Click on _Customers App -> Application -> Customers_. The Hub will redirect you to Customers app at `http://host1:8081` and show the Customers browse screen of this app.
 
 You can go back to Hub either using the browser back button or clicking _Go to Hub_ in the main menu.
+
+![](hub-usage-1.gif)
+
+## Implementation details
+
+The `integration` add-on provides a REST endpoint `/integration/menu` for getting menu structure of the service application, see [MenuController](integration/integration/src/main/java/com/company/integration/menu/MenuController.java). The controller transforms the menu configuration to the collection of DTOs, checking current user permissions for each item. The endpoint is authenticated, see `AuthorizedUrlsProvider` bean in [IntConfiguration](integration/integration/src/main/java/com/company/integration/IntConfiguration.java).
+
+The `customers` and `orders` projects use the `integration` add-on, and therefore automatically expose the `/integration/menu` endpoint. They also create a menu item to go to the Hub application, see `onAfterShow()` method of [MainScreen](customers/src/main/java/com/company/customers/screen/main/MainScreen.java).
+
+Each service application has its own set of roles named `manager` and `worker`, for managing permissions to entities and UI of the application. See [ManagerRole](customers/src/main/java/com/company/customers/security/ManagerRole.java) and the like. The roles are assigned to a user in Keycloak and used when the user is authenticated in an application.
+
+Service applications are registered in Hub using its `integration.appNames` and `integration.appUrls` properties.
+
+The Hub application in `onAfterShow()` method of [MainScreen](hub/src/main/java/com/company/hub/screen/main/MainScreen.java) builds main menu by retrieveing it from all registered service applications. [MenuRetriever](hub/src/main/java/com/company/hub/integration/MenuRetriever.java) bean requests the service application's `/integration/menu` endpoint, providing the authentication token which was stored in a session attribute by [AuthenticationSuccessListener](hub/src/main/java/com/company/hub/integration/AuthenticationSuccessListener.java) when the user logged in to the Hub application.
