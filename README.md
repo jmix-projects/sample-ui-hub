@@ -4,7 +4,7 @@
 
 This is an example of integrating multiple Jmix applications (services) into a single starter UI (Hub). 
 
-The Hub main menu is composed from menus of the service applications, taking into account permissions of the logged in user. When the user clicks on a menu item in Hub, it redirects to the corresponding screen in the service application.
+The Hub main menu is composed of menus of the service applications, taking into account permissions of the logged-in user. When the user clicks on a menu item in Hub, it redirects to the corresponding screen in the service application.
 
 The repository contains the following projects:
 
@@ -76,4 +76,8 @@ Each service application has its own set of roles named `manager` and `worker`, 
 
 Service applications are registered in Hub using its `integration.appNames` and `integration.appUrls` properties.
 
-The Hub application in `onAfterShow()` method of [MainScreen](hub/src/main/java/com/company/hub/screen/main/MainScreen.java) builds main menu by retrieveing it from all registered service applications. [MenuRetriever](hub/src/main/java/com/company/hub/integration/MenuRetriever.java) bean requests the service application's `/integration/menu` endpoint, providing the authentication token which was stored in a session attribute by [AuthenticationSuccessListener](hub/src/main/java/com/company/hub/integration/AuthenticationSuccessListener.java) when the user logged in to the Hub application.
+The Hub application in `onAfterShow()` method of [MainScreen](hub/src/main/java/com/company/hub/screen/main/MainScreen.java) builds main menu by retrieving it from all registered service applications. [MenuRetriever](hub/src/main/java/com/company/hub/integration/MenuRetriever.java) bean requests the service application's `/integration/menu` endpoint, providing the authentication token which was stored in a session attribute by [AuthenticationSuccessListener](hub/src/main/java/com/company/hub/integration/AuthenticationSuccessListener.java) when the user logged in to the Hub application.
+
+The `integration` add-on also provides the `/integration/logout` REST endpoint for logging out from a service application by a signal from the Hub, see [LogoutController](integration/integration/src/main/java/com/company/integration/logout/LogoutController.java). 
+
+[OAuth2LoginSecurityConfiguration](integration/integration/src/main/java/com/company/integration/oidc/OAuth2LoginSecurityConfiguration.java) configures session management for OIDC-based authentication. It will be included in the next version of the OIDC add-on and will not be needed in this project.
