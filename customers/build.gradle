@@ -22,7 +22,6 @@ repositories {
 
 dependencies {
     implementation 'com.company:integration-starter:0.0.1-SNAPSHOT'
-    implementation 'io.jmix.oidc:jmix-oidc-starter'
 
     implementation 'io.jmix.core:jmix-core-starter'
     implementation 'io.jmix.data:jmix-eclipselink-starter'

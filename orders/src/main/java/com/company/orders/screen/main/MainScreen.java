@@ -5,9 +5,11 @@ import io.jmix.ui.ScreenTools;
 import io.jmix.ui.WebBrowserTools;
 import io.jmix.ui.component.AppWorkArea;
 import io.jmix.ui.component.Button;
+import io.jmix.ui.component.HtmlAttributes;
 import io.jmix.ui.component.Window;
 import io.jmix.ui.component.mainwindow.Drawer;
 import io.jmix.ui.component.mainwindow.SideMenu;
+import io.jmix.ui.component.mainwindow.UserIndicator;
 import io.jmix.ui.icon.JmixIcon;
 import io.jmix.ui.navigation.Route;
 import io.jmix.ui.screen.Screen;
@@ -36,6 +38,11 @@ public class MainScreen extends Screen implements Window.HasWorkArea {
     @Autowired
     private WebBrowserTools webBrowserTools;
 
+    @Autowired
+    private UserIndicator userIndicator;
+
+    @Autowired
+    private HtmlAttributes htmlAttributes;
 
     @Override
     public AppWorkArea getWorkArea() {
@@ -64,5 +71,7 @@ public class MainScreen extends Screen implements Window.HasWorkArea {
                 webBrowserTools.showWebPage("http://host0:8080", ParamsMap.of("target", "_self")));
         sideMenu.addMenuItem(menuItem, 0);
 
+        //since we removed the logout button the user indicator component must take more space
+        htmlAttributes.applyCss(userIndicator, "flex-grow: 1");
     }
 }
