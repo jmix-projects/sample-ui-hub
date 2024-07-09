@@ -48,7 +48,7 @@ The repository contains the following projects:
         When setting passwords for users, turn off Temporary flag.
         Roles are assigned on the Role Mappings tab.
 
-4. Open terminal in `integration` directory and run `./gradlew publishToMavenLocal` to install the add-on to the local Maven repo.
+4. Open terminal in `integration` directory and run `./gradlew publishToMavenLocal` to install the add-on to the local Maven repo. In case you got this error `java.lang.IllegalArgumentException: Unsupported class file major version 65` check the Java version used by your terminal (`java -version`). It should be **17**.
 
 5. Open `hub` project in IDE and set `spring.security.oauth2.client.registration.keycloak.client-secret` property to the value obtained from the Credentials tab of the `hub` application in Keycloak. Do the same for `customers` and `orders` projects.
 
